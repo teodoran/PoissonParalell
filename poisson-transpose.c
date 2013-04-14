@@ -4,7 +4,6 @@
 #include <memory.h>
 #include <math.h>
 #include <omp.h>
-
 #include "common.h"
 
 #include <unistd.h>

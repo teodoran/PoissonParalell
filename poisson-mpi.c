@@ -19,9 +19,6 @@
 #include <math.h>
 #include "common.h"
 
-//#include <omp.h>
-//#include <unistd.h>
-
 typedef double Real;
 
 /* function prototypes */

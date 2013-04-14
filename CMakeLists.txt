@@ -61,6 +61,7 @@ MACRO(ADD_APP APP)
 ENDMACRO(ADD_APP)
 
 # Add a program consisting of these sources
-ADD_APP(poisson-transpose)
-ADD_APP(poisson)
+# ADD_APP(poisson-transpose)
+ADD_APP(poisson-serial)
 ADD_APP(poisson-mpi)
+ADD_APP(poisson-hybrid)

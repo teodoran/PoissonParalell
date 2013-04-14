@@ -9,7 +9,7 @@ nproc
 grep -i memtotal /proc/meminfo
 grep -i memfree /proc/meminfo
 
-for N in 32 64 128 256 512 1024
+for N in 32 64 128 256 512 1024 2048
 do
 	echo
 	echo Calculating with problemsize $N
