@@ -19,5 +19,5 @@
 # Set thread affinity
 KMP_AFFINITY="granularity=fine,compact"
  
-cd $PBS_O_WORKDIR
+cd ${PBS_O_WORKDIR}
 OMP_NUM_THREADS=3 mpirun -npernode 4 poisson-hybrid 16384
