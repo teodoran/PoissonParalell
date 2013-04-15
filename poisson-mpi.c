@@ -155,6 +155,7 @@ void transpose (Real **A, int m, int n, int size, int bb, int bre)
 {
   int se[size], sd[size], re[size], rd[size];
   Real *V = createRealArray (n*m);
+  Real *Vt = createRealArray (n*m);
 
   for (int i = 0; i < size; ++i) {
     se[i] = bb;
@@ -171,8 +172,8 @@ void transpose (Real **A, int m, int n, int size, int bb, int bre)
     }
   }
 
-  MPI_Alltoallv(V, se, sd, MPI_DOUBLE, V, re, rd, MPI_DOUBLE, MPI_COMM_WORLD);
-  fillA(A, V, re, rd, m, n, size);
+  MPI_Alltoallv(V, se, sd, MPI_DOUBLE, Vt, re, rd, MPI_DOUBLE, MPI_COMM_WORLD);
+  fillA(A, Vt, re, rd, m, n, size);
 }
 
 void fillA (Real **A, Real *V, int *re, int *rd, int m, int n, int size)
