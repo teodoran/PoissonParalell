@@ -55,7 +55,7 @@ int main(int argc, char **argv )
   h    = 1./(Real)n;
   pi   = 4.*atan(1.);
 
-  b   = floorl(m/size);
+  b   = floor(m/size);
   re  = m - (size-1)*b;
   l   = b;
   bb  = b*b;
