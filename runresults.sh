@@ -15,9 +15,9 @@ do
 	echo Serial:
 	./poisson-serial $N
 	echo MPI:
-	mpirun -np 4 ./poisson-mpi $N
+	mpirun -np $1 ./poisson-mpi $N
 	echo Hybrid:
-	mpirun -np 4 ./poisson-hybrid $N
+	mpirun -np $1 ./poisson-hybrid $N
 done
 
 cd ..
