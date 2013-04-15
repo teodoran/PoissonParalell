@@ -32,7 +32,7 @@ void fillA (Real **A, Real *V, int *re, int *rd, int m, int n, int size);
 int main(int argc, char **argv )
 {
   Real *diag, **A, *z;
-  Real pi, h, umax, globalumax, time;
+  Real pi, h, umax, globalumax, emax, globalemax, error, time;
   int i, j, n, m, nn, b, re, l, bb, bre, rank, size;
 
   MPI_Init (&argc, &argv);
@@ -76,9 +76,10 @@ int main(int argc, char **argv )
   for (i=0; i < m; i++) {
     diag[i] = 2.*(1.-cos((i+1)*pi/(Real)n));
   }
+  
   for (j=0; j < l; j++) {
     for (i=0; i < m; i++) {
-      A[j][i] = h*h;
+      A[j][i] = h*h*5*pi*pi*sin(pi*i*h)*sin(2*pi*(j + rank*b)*h);
     }
   }
   
@@ -109,17 +110,22 @@ int main(int argc, char **argv )
   }
 
   umax = 0.0;
+  emax = 0.0;
   for (j=0; j < l; j++) {
     for (i=0; i < m; i++) {
+      error = fabs(A[j][i] - sin(pi*i*h)*sin(2*pi*(j + rank*b)*h));
       if (A[j][i] > umax) umax = A[j][i];
+      if (error > emax) emax = error;
     }
   }
 
   MPI_Reduce (&umax, &globalumax, 1, MPI_DOUBLE, MPI_MAX, 0, MPI_COMM_WORLD);
+  MPI_Reduce (&emax, &globalemax, 1, MPI_DOUBLE, MPI_MAX, 0, MPI_COMM_WORLD);
   if (rank == 0)
   {
     printf("elapsed: %f\n", MPI_Wtime()-time);
     printf ("umax = %e \n",globalumax);
+    printf ("emax = %e \n",globalemax);
   }
 
   MPI_Finalize();

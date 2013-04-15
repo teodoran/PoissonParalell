@@ -28,7 +28,7 @@ void fstinv_(Real *v, int *n, Real *w, int *nn);
 int main(int argc, char **argv )
 {
   Real *diag, **b, **bt, *z;
-  Real pi, h, umax, time;
+  Real pi, h, umax, emax, error, time;
   int i, j, n, m, nn;
 
   /* the total number of grid points in each spatial direction is (n+1) */
@@ -59,7 +59,7 @@ int main(int argc, char **argv )
   }
   for (j=0; j < m; j++) {
     for (i=0; i < m; i++) {
-      b[j][i] = h*h;
+      b[j][i] = h*h*5*pi*pi*sin(pi*i*h)*sin(2*pi*j*h);
     }
   }
   for (j=0; j < m; j++) {
@@ -89,13 +89,18 @@ int main(int argc, char **argv )
   }
 
   umax = 0.0;
+  emax = 0.0;
   for (j=0; j < m; j++) {
     for (i=0; i < m; i++) {
+      error = fabs(b[j][i] - sin(pi*i*h)*sin(2*pi*j*h));
       if (b[j][i] > umax) umax = b[j][i];
+      if (error > emax) emax = error;
     }
   }
+
   printf("elapsed: %f\n", WallTime()-time);
   printf ("umax = %e \n",umax);
+  printf ("emax = %e \n",emax);
   return 0;
 }
 
