@@ -17,8 +17,8 @@
 #include <stdio.h>
 #include <memory.h>
 #include <math.h>
-#include "common.h"
 #include <omp.h>
+#include <mpi.h>
 
 typedef double Real;
 
@@ -71,7 +71,7 @@ int main(int argc, char **argv )
   diag = createRealArray (m);
   A    = createReal2DArray (l,m);
 
-  time = WallTime();
+  time = MPI_Wtime();
 
   #pragma omp parallel for schedule(static)
   for (int i=0; i < m; i++) {
@@ -129,7 +129,7 @@ int main(int argc, char **argv )
   MPI_Reduce (&umax, &globalumax, 1, MPI_DOUBLE, MPI_MAX, 0, MPI_COMM_WORLD);
   if (rank == 0)
   {
-    printf("elapsed: %f\n", WallTime()-time);
+    printf("elapsed: %f\n", MPI_Wtime()-time);
     printf ("umax = %e \n",globalumax);
   }
 

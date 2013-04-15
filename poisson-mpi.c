@@ -17,7 +17,7 @@
 #include <stdio.h>
 #include <memory.h>
 #include <math.h>
-#include "common.h"
+#include <mpi.h>
 
 typedef double Real;
 
@@ -71,7 +71,7 @@ int main(int argc, char **argv )
   A    = createReal2DArray (l,m);
   z    = createRealArray (nn);
 
-  time = WallTime();
+  time = MPI_Wtime();
 
   for (i=0; i < m; i++) {
     diag[i] = 2.*(1.-cos((i+1)*pi/(Real)n));
@@ -118,7 +118,7 @@ int main(int argc, char **argv )
   MPI_Reduce (&umax, &globalumax, 1, MPI_DOUBLE, MPI_MAX, 0, MPI_COMM_WORLD);
   if (rank == 0)
   {
-    printf("elapsed: %f\n", WallTime()-time);
+    printf("elapsed: %f\n", MPI_Wtime()-time);
     printf ("umax = %e \n",globalumax);
   }
 

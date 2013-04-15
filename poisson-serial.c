@@ -13,19 +13,19 @@
 #include <stdio.h>
 #include <memory.h>
 #include <math.h>
-#include "common.h"
+#include <sys/time.h>
 
 typedef double Real;
 
 /* function prototypes */
 Real *createRealArray (int n);
 Real **createReal2DArray (int m, int n);
+Real WallTime ();
 void transpose (Real **bt, Real **b, int m);
 void fst_(Real *v, int *n, Real *w, int *nn);
 void fstinv_(Real *v, int *n, Real *w, int *nn);
 
-
-main(int argc, char **argv )
+int main(int argc, char **argv )
 {
   Real *diag, **b, **bt, *z;
   Real pi, h, umax, time;
@@ -37,7 +37,7 @@ main(int argc, char **argv )
 
  if( argc < 2 ) {
     printf("need a problem size\n");
-	return;
+	return 0;
   }
 
   n  = atoi(argv[1]);
@@ -96,6 +96,7 @@ main(int argc, char **argv )
   }
   printf("elapsed: %f\n", WallTime()-time);
   printf ("umax = %e \n",umax);
+  return 0;
 }
 
 void transpose (Real **bt, Real **b, int m)
@@ -131,4 +132,18 @@ Real **createReal2DArray (int n1, int n2)
   n = n1*n2;
   memset(a[0],0,n*sizeof(Real));
   return (a);
+}
+
+Real WallTime ()
+{
+#ifdef HAVE_MPI
+  return MPI_Wtime();
+#endif
+#ifdef HAVE_OPENMP
+  return omp_get_wtime();
+#endif
+
+  struct timeval tmpTime;
+  gettimeofday(&tmpTime,NULL);
+  return tmpTime.tv_sec + tmpTime.tv_usec/1.0e6;
 }

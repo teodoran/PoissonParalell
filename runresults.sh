@@ -1,7 +1,6 @@
 #!/bin/bash
-echo Compiling...
-cd build
-make
+./build.sh
+cd bin
 
 echo
 echo Collecting system info
@@ -9,7 +8,7 @@ nproc
 grep -i memtotal /proc/meminfo
 grep -i memfree /proc/meminfo
 
-for N in 32 64 128 256 512 1024 2048
+for N in 32 64 128 256 512 #1024 2048 4096
 do
 	echo
 	echo Calculating with problemsize $N
