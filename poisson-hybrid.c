@@ -81,6 +81,7 @@ int main(int argc, char **argv )
   #pragma omp parallel for schedule(static)
   for (int j=0; j < l; j++) {
     for (int i=0; i < m; i++) {
+      //        h^2 * f(x,y)
       A[j][i] = h*h*5*pi*pi*sin(pi*i*h)*sin(2*pi*(j + rank*b)*h);
     }
   }
@@ -123,6 +124,7 @@ int main(int argc, char **argv )
   emax = 0.0;
   for (int j=0; j < l; j++) {
     for (int i=0; i < m; i++) {
+      // error =  abs( numerical u(x,y) - exact u(x,y) )
       error = fabs(A[j][i] - sin(pi*i*h)*sin(2*pi*(j + rank*b)*h));
       if (A[j][i] > umax) umax = A[j][i];
       if (error > emax) emax = error;

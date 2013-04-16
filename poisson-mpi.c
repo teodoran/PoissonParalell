@@ -76,9 +76,10 @@ int main(int argc, char **argv )
   for (i=0; i < m; i++) {
     diag[i] = 2.*(1.-cos((i+1)*pi/(Real)n));
   }
-  
+
   for (j=0; j < l; j++) {
     for (i=0; i < m; i++) {
+      //        h^2 * f(x,y)
       A[j][i] = h*h*5*pi*pi*sin(pi*i*h)*sin(2*pi*(j + rank*b)*h);
     }
   }
@@ -113,6 +114,7 @@ int main(int argc, char **argv )
   emax = 0.0;
   for (j=0; j < l; j++) {
     for (i=0; i < m; i++) {
+      // error =  abs( numerical u(x,y) - exact u(x,y) )
       error = fabs(A[j][i] - sin(pi*i*h)*sin(2*pi*(j + rank*b)*h));
       if (A[j][i] > umax) umax = A[j][i];
       if (error > emax) emax = error;

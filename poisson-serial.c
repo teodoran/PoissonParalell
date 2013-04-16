@@ -59,6 +59,7 @@ int main(int argc, char **argv )
   }
   for (j=0; j < m; j++) {
     for (i=0; i < m; i++) {
+      //        h^2 * f(x,y)
       b[j][i] = h*h*5*pi*pi*sin(pi*i*h)*sin(2*pi*j*h);
     }
   }
@@ -92,6 +93,7 @@ int main(int argc, char **argv )
   emax = 0.0;
   for (j=0; j < m; j++) {
     for (i=0; i < m; i++) {
+      // error =  abs( numerical u(x,y) - exact u(x,y) )
       error = fabs(b[j][i] - sin(pi*i*h)*sin(2*pi*j*h));
       if (b[j][i] > umax) umax = b[j][i];
       if (error > emax) emax = error;
